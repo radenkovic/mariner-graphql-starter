@@ -1,7 +1,7 @@
 {
-  "name": "anima-backend",
+  "name": "mariner-graphql-starter",
   "version": "1.0.0",
-  "description": "GraphQL Backend for anima.co",
+  "description": "GraphQL Backend based on marinerjs",
   "main": "src/index.js",
   "scripts": {
     "dev": "nodemon ./src --exec babel-node",
@@ -19,7 +19,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/radenkovic/koa-apollo-graphql.git"
+    "url": "https://github.com/radenkovic/mariner-graphql-starter"
   },
   "dependencies": {
     "apollo-server-express": "^2.0.2",

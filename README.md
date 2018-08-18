@@ -1,1 +1,3 @@
-# Anima Backend
+# Mariner GraphQL Starter
+
+WIP
