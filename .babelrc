@@ -1,0 +1,17 @@
+{
+  "presets": ["env", "stage-0", "flow"],
+  "plugins": [
+    ["module-resolver", {
+      "alias": {
+        "exceptions": "./src/exceptions",
+        "lib": "./src/lib",
+        "models": "./src/models",
+        "resources": "./src/resources",
+        "utils": "./src/utils",
+        "interfaces": "./src/interfaces",
+        "middleware": "./src/middleware",
+        "@": "./framework"
+      }
+    }]
+  ]
+}

@@ -1,0 +1,10 @@
+[options]
+module.name_mapper='^@' ->'<PROJECT_ROOT>/framework'
+
+[ignore]
+.*node_modules.*
+.*dist.*
+.*/__test__/.*
+
+[libs]
+flow-typed

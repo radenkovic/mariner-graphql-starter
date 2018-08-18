@@ -1,0 +1,48 @@
+image: node:8
+
+variables:
+  BACKEND_REPOSITORY_URL: 934598419964.dkr.ecr.us-east-1.amazonaws.com/anima-backend
+  NGINX_REPOSITORY_URL: 934598419964.dkr.ecr.us-east-1.amazonaws.com/anima-nginx
+  
+cache:
+  paths:
+  - node_modules/
+
+services:
+- docker:dind
+
+stages:
+  - test
+  - build
+  - deploy
+
+test:
+  stage: test
+  script:
+    - yarn install
+    - yarn run lint
+    - yarn run flow
+    - yarn test
+
+build:
+  stage: build
+  script:
+    - yarn install
+    - yarn run build
+
+deploy:
+  stage: deploy
+  image: docker:latest
+  script:
+    - apk add --no-cache curl jq python py-pip
+    - apk add --update wget bash && rm -rf /var/cache/apk/* # Bash
+    - curl https://raw.githubusercontent.com/silinternational/ecs-deploy/master/ecs-deploy | tee -a /usr/bin/ecs-deploy # Ecs Deploy
+    - chmod +x /usr/bin/ecs-deploy
+    - pip install awscli # Aws CLI
+    - $(aws ecr get-login --no-include-email --region us-east-1)
+    - docker build -t $BACKEND_REPOSITORY_URL .
+    - docker push $BACKEND_REPOSITORY_URL
+  only:
+    - master
+  tags: 
+    - docker
