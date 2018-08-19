@@ -1,8 +1,11 @@
-import { UserInputError } from 'apollo-server-express';
+import { UserInputError, ApolloError } from 'apollo-server-express';
+import { SaltHash } from 'node-mariner';
+import User from './service';
 
 const CreateUser = `
   input CreateUserInput {
     name: String,
+    username: String,
     email: String!,
     password: String!
   }
@@ -12,15 +15,24 @@ const CreateUser = `
   }
 `;
 
-export const resolver = (root, args) => {
-  const { email, password } = args.input;
+export const resolver = async (root, args) => {
+  const { username, email, password } = args.input;
   if (!email || !password)
     throw new UserInputError('id or username is required');
-  return {
-    id: 1,
-    name: 'Dan',
-    email: 'dan@radenkovic.org'
-  };
+  try {
+    const passwordHash = await SaltHash(password);
+    const user = await User.service('create', {
+      email,
+      username,
+      password: passwordHash
+    });
+    return user;
+  } catch (e) {
+    if (e.code === '23505') {
+      throw new ApolloError('Username already exists', 'conflict');
+    }
+    throw new ApolloError(e.message, e.code, e.data, e.data);
+  }
 };
 
 export default [CreateUser];

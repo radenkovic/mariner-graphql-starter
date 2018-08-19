@@ -1,15 +1,22 @@
-import { Authenticate } from 'node-mariner'; // eslint-disable-line
+import { Authenticate, verifyPassword } from 'node-mariner'; // eslint-disable-line
+import { AuthenticationError } from 'apollo-server-express';
+import User from '@/user/service';
 
 export default new Authenticate({
   secret: 'DEAD_SIMPLE_KEY',
-  authorizationFn: ({ login, password }) => {
-    if (login === 'dan' && password === '123456') {
-      return {
-        id: 1,
-        name: 'Dan',
-        email: 'dan@radenkovic.org'
-      };
+  authorizationFn: async ({ login, password }) => {
+    try {
+      const user = await User.service('findOne', {
+        $or: { email: login, username: login }
+      });
+      // Verify password
+      await verifyPassword({
+        enteredPassword: password,
+        password: user.password
+      });
+      return user;
+    } catch (e) {
+      throw new AuthenticationError(e.message, e.code);
     }
-    throw new Error('Login failed');
   }
 });

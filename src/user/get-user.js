@@ -1,6 +1,7 @@
-import { UserInputError } from 'apollo-server-express';
+import { UserInputError, ApolloError } from 'apollo-server-express';
+import User from './service';
 
-const User = `
+const UserType = `
   type User implements BaseUser {
     id: Int!
     name: String,
@@ -13,14 +14,16 @@ const User = `
   }
 `;
 
-export const resolver = (root, args) => {
+export const resolver = async (root, args) => {
   const { id, username } = args;
   if (!id && !username) throw new UserInputError('id or username is required');
-  return {
-    id: 1,
-    name: 'Dan',
-    email: 'dan@radenkovic.org'
-  };
+  const query = id ? { id } : { username };
+  try {
+    const user = await User.service('findOne', query);
+    return user;
+  } catch (e) {
+    throw new ApolloError(e.message, e.code);
+  }
 };
 
-export default [User];
+export default [UserType];
