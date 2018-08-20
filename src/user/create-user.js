@@ -26,7 +26,7 @@ export const resolver = async (root, args, ctx) => {
     } else if (e.code === '23505' && e.constraint === 'user_username_key') {
       throw new ApolloError('Username already exists', 'conflict');
     }
-    throw new ApolloError(e.message, e.code, e.data, e.data);
+    throw new ApolloError(e.message, e.code, e.data);
   }
 };
 

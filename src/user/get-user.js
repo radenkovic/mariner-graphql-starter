@@ -22,8 +22,7 @@ export const resolver = async (root, args) => {
   if (!id && !username) throw new UserInputError('id or username is required');
   const query = id ? { id } : { username };
   try {
-    const user = await User.service('findOne', query);
-    return user;
+    return User.service('findOne', query);
   } catch (e) {
     throw new ApolloError(e.message, e.code);
   }
