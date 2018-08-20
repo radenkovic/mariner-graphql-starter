@@ -4,6 +4,8 @@ import cookieParser from 'cookie-parser';
 import schema from './schema';
 import readJwt from './middleware/read-jwt';
 
+require('dotenv').config();
+
 const app = express();
 
 app.use(cookieParser());

@@ -1,11 +1,11 @@
-import { UserInputError, ApolloError } from 'apollo-server-express';
+import { ApolloError } from 'apollo-server-express';
 import { SaltHash } from 'node-mariner';
 import User from './service';
 
 const CreateUser = `
   input CreateUserInput {
     name: String,
-    username: String,
+    username: String!,
     email: String!,
     password: String!
   }
@@ -17,8 +17,6 @@ const CreateUser = `
 
 export const resolver = async (root, args) => {
   const { username, email, password } = args.input;
-  if (!email || !password)
-    throw new UserInputError('id or username is required');
   try {
     const passwordHash = await SaltHash(password);
     const user = await User.service('create', {

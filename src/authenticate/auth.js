@@ -1,11 +1,12 @@
-import { Authenticate, verifyPassword } from 'node-mariner'; // eslint-disable-line
+import { Authenticate, verifyPassword } from 'node-mariner';
 import { AuthenticationError } from 'apollo-server-express';
 import User from '@/user/service';
 
 export default new Authenticate({
-  secret: 'DEAD_SIMPLE_KEY',
+  secret: process.env.JWT_SECRET_KEY,
   authorizationFn: async ({ login, password }) => {
     try {
+      // Find User using email or username
       const user = await User.service('findOne', {
         $or: { email: login, username: login }
       });

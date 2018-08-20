@@ -5,7 +5,10 @@ const UserType = `
   type User implements BaseUser {
     id: Int!
     name: String,
-    email: String!
+    email: String!,
+    username: String,
+    created_at: DateTime!,
+    updated_at: DateTime!
   }
 
   extend type Query {

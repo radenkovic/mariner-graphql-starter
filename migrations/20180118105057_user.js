@@ -1,14 +1,26 @@
 exports.up = knex =>
-  knex.schema.withSchema('public').createTable('user', table => {
-    table.increments();
-    table.string('username').notNullable();
-    table.string('name');
-    table.string('email').notNullable();
-    table.string('password').notNullable();
-    table.timestamp('created_at').defaultTo(knex.fn.now());
-    table.timestamp('updated_at').defaultTo(knex.fn.now());
-    table.unique('username');
-    table.unique('email');
-  });
+  knex.raw(`
+    CREATE OR REPLACE FUNCTION updated_at()
+    RETURNS TRIGGER AS $$
+    BEGIN
+      NEW.updated_at = now();
+      RETURN NEW;
+    END;
+    $$ language 'plpgsql';
+    
+    CREATE TABLE "user" (
+      id SERIAL PRIMARY KEY,
+      email VARCHAR UNIQUE NOT NULL,
+      username VARCHAR UNIQUE NOT NULL,
+      password VARCHAR NOT NULL,
+      name VARCHAR,
+      created_at TIMESTAMP without time zone default (now() at time zone 'utc'),
+      updated_at TIMESTAMP without time zone default (now() at time zone 'utc')
+    );
+    CREATE TRIGGER user_updated_at BEFORE UPDATE ON "user" FOR EACH ROW EXECUTE PROCEDURE updated_at();
+  `);
 
-exports.down = knex => knex.schema.dropTable('user');
+exports.down = async knex =>
+  knex.raw(`
+    DROP TABLE "user";
+  `);

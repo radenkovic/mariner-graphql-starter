@@ -1,10 +1,12 @@
 import { makeExecutableSchema } from 'graphql-tools';
 import Authenticate from './authenticate';
+
 import User from './user';
 
 const SchemaDefinition = `
   type Query
-  type Mutation 
+  type Mutation
+  scalar DateTime
   schema {
     query: Query
     mutation: Mutation
