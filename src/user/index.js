@@ -5,7 +5,7 @@ import UpdateUser, { resolver as update_user } from './update-user';
 
 const BaseUserType = `
 interface BaseUser {
-  id: Int!
+  id: UUID!
   name: String,
   email: String!,
   username: String!,

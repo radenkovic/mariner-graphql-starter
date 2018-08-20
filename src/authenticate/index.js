@@ -1,5 +1,8 @@
 import { AuthenticationError } from 'apollo-server-express';
 import Auth from './auth';
+import login from './login';
+import ForgotPassword, { resolver as forgot_password } from './forgot-password';
+import ResetPassword, { resolver as reset_password } from './reset-password';
 
 const Authenticate = `
   type Login {
@@ -15,21 +18,14 @@ const Authenticate = `
 export const authenticate = async (root, args, ctx) => {
   try {
     const user = await Auth.authenticate(args);
-    ctx.res.cookie('graphql-cookie', user.access_token, {
-      maxAge: 1000 * 60 * 120,
-      httpOnly: true
-    });
-    return {
-      accessToken: user.access_token,
-      user
-    };
+    return login(ctx.res, user);
   } catch (e) {
     throw new AuthenticationError('authentication failed');
   }
 };
 
 export default {
-  typeDefs: [Authenticate],
+  typeDefs: [Authenticate, ...ForgotPassword, ...ResetPassword],
   queries: {},
-  mutations: { authenticate }
+  mutations: { authenticate, forgot_password, reset_password }
 };

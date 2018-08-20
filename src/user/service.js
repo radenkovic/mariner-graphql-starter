@@ -1,9 +1,16 @@
-import { Model, Service } from 'node-mariner'; // eslint-ignore
+import { Model, Service, SaltHashSync } from 'node-mariner'; // eslint-ignore
+import { normalizeEmail } from 'validator';
+
 import config from '../../knexfile';
 
 const UserModel = new Model({
   table: 'user',
-  config
+  config,
+  sanitize: {
+    username: username => username.toLowerCase().trim(),
+    email: email => normalizeEmail(email),
+    password: password => SaltHashSync(password)
+  }
 });
 
 export default new Service({

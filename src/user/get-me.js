@@ -1,9 +1,10 @@
 import { combineResolvers } from 'graphql-resolvers';
 import isAuthenticated from '../middleware/is-authenticated';
+import User from '@/user/service';
 
 const Me = `
    type Me implements BaseUser  {
-     id: Int!
+     id: UUID!
      name: String,
      email: String!,
      username: String!,
@@ -16,9 +17,8 @@ const Me = `
   }
 `;
 
-const MeResolver = (root, args, ctx) => ({
-  ...ctx.user
-});
+const MeResolver = (root, args, ctx) =>
+  User.service('findOne', { id: ctx.user.id });
 
 export const resolver = combineResolvers(isAuthenticated, MeResolver);
 export default [Me];

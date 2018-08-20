@@ -3,17 +3,17 @@ import User from './service';
 
 const UserType = `
   type User implements BaseUser {
-    id: Int!
+    id: UUID!
     name: String,
     email: String!,
-    username: String,
+    username: String!,
     created_at: DateTime!,
     updated_at: DateTime!
   }
 
   extend type Query {
     # Id or username is required
-    user(id: Int, username: String): User!
+    user(id: UUID, username: String): User!
   }
 `;
 

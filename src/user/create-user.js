@@ -1,32 +1,29 @@
 import { ApolloError } from 'apollo-server-express';
-import { SaltHash } from 'node-mariner';
+import login from '@/authenticate/login';
+
 import User from './service';
 
 const CreateUser = `
   input CreateUserInput {
     name: String,
-    username: String!,
     email: String!,
+    username: String!,
     password: String!
   }
 
   extend type Mutation {
-    create_user(input: CreateUserInput!): User!
+    create_user(input: CreateUserInput!): Login!
   }
 `;
 
-export const resolver = async (root, args) => {
-  const { username, email, password } = args.input;
+export const resolver = async (root, args, ctx) => {
   try {
-    const passwordHash = await SaltHash(password);
-    const user = await User.service('create', {
-      email,
-      username,
-      password: passwordHash
-    });
-    return user;
+    const user = await User.service('create', args.input);
+    return login(ctx.res, user);
   } catch (e) {
-    if (e.code === '23505') {
+    if (e.code === '23505' && e.constraint === 'user_email_key') {
+      throw new ApolloError('Email already exists', 'conflict');
+    } else if (e.code === '23505' && e.constraint === 'user_username_key') {
       throw new ApolloError('Username already exists', 'conflict');
     }
     throw new ApolloError(e.message, e.code, e.data, e.data);

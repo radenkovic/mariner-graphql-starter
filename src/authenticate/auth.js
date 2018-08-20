@@ -15,6 +15,7 @@ export default new Authenticate({
         enteredPassword: password,
         password: user.password
       });
+      delete user.password;
       return user;
     } catch (e) {
       throw new AuthenticationError(e.message, e.code);

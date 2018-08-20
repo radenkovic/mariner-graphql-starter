@@ -1,5 +1,9 @@
 exports.up = knex =>
   knex.raw(`
+    -- UUIDs
+    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+    -- UPDATED AT
     CREATE OR REPLACE FUNCTION updated_at()
     RETURNS TRIGGER AS $$
     BEGIN
