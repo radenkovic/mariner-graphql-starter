@@ -1,7 +1,7 @@
 import { ApolloError } from 'apollo-server-express';
 import login from '@/authenticate/login';
-import DatabaseConflictException from '@/exceptions/database-conflict';
-import User from '@/services/user';
+import DatabaseConflictException from '@/lib/exceptions/database-conflict';
+import User from '@/lib/services/user';
 
 const CreateUser = `
   input CreateUserInput {

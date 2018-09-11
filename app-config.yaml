@@ -1,3 +1,6 @@
 authentication:
   - verify_email: true
   - invite_code: false
+  - jwt_cookie_max_age: 15 # in minutes
+email:
+  - default_from: "\"Dan Radenkovic\" <dan@radenkovic.org>"

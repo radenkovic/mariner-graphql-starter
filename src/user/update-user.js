@@ -1,6 +1,6 @@
 import { UserInputError } from 'apollo-server-express';
 import { combineResolvers } from 'graphql-resolvers';
-import isAuthenticated from '../middleware/is-authenticated';
+import isAuthenticated from '@/lib/middleware/is-authenticated';
 
 const UpdateUser = `
   input UpdateUserInput {

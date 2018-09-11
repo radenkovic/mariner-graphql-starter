@@ -1,5 +1,5 @@
 import { UserInputError, ApolloError } from 'apollo-server-express';
-import User from '@/services/user';
+import User from '@/lib/services/user';
 
 const UserType = `
   type User implements BaseUser {

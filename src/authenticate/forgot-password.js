@@ -1,5 +1,5 @@
 import { ApolloError } from 'apollo-server-express';
-import User from '@/services/user';
+import User from '@/lib/services/user';
 import crypto from 'crypto';
 
 const ForgotPassword = `

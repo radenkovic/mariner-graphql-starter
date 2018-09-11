@@ -1,6 +1,12 @@
 import { Authenticate, verifyPassword } from 'node-mariner';
 import { AuthenticationError } from 'apollo-server-express';
-import User from '@/services/user';
+import User from '@/lib/services/user';
+
+if (!process.env.JWT_SECRET_KEY) {
+  throw new Error(
+    'JWT_SECRET_KEY not found in environment variables. Do you have .env file?'
+  );
+}
 
 export default new Authenticate({
   secret: process.env.JWT_SECRET_KEY,

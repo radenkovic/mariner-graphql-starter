@@ -1,6 +1,6 @@
 import { combineResolvers } from 'graphql-resolvers';
-import isAuthenticated from '../middleware/is-authenticated';
-import User from '@/services/user';
+import isAuthenticated from '@/lib/middleware/is-authenticated';
+import User from '@/lib/services/user';
 
 const Me = `
    type Me implements BaseUser  {

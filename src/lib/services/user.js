@@ -1,7 +1,7 @@
-import { Model, Service, SaltHashSync } from 'node-mariner'; // eslint-ignore
+import { Model, Service, SaltHashSync } from 'node-mariner'; // eslint-disable-line
 import { normalizeEmail } from 'validator';
-import Events from '@/events';
-import config from '../../knexfile';
+import Events from '@/lib/events';
+import config from '../../../knexfile';
 
 const UserModel = new Model({
   table: 'user',

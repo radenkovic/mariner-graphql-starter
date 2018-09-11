@@ -1,5 +1,5 @@
 import { ApolloError } from 'apollo-server-express';
-import User from '@/services/user';
+import User from '@/lib/services/user';
 import login from './login';
 
 const ResetPassword = `
