@@ -13,7 +13,14 @@ app.use(readJwt); // Reads JWT and adds it to req.user
 
 const server = new ApolloServer({
   schema,
-  context: ({ req, res }) => ({ req, res, user: req.user })
+  context: ({ req, res }) => ({ req, res, user: req.user }),
+  formatError: error => {
+    console.log(error);
+    return {
+      message: error.message,
+      code: error.extensions.code.toLowerCase()
+    };
+  }
 });
 
 server.applyMiddleware({ app });

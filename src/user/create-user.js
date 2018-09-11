@@ -21,11 +21,14 @@ export const resolver = async (root, args, ctx) => {
     const user = await User.service('create', args.input);
     return login(ctx.res, user);
   } catch (e) {
-    if (e.code === '23505' && e.constraint === 'user_email_key') {
-      throw new ApolloError('Email already exists', 'conflict');
-    } else if (e.code === '23505' && e.constraint === 'user_username_key') {
-      throw new ApolloError('Username already exists', 'conflict');
+    // Conflict
+    if (e.code === '23505') {
+      if (e.constraint === 'user_email_key')
+        throw new ApolloError('Email already exists', 'conflict');
+      if (e.constraint === 'user_username_key')
+        throw new ApolloError('Username already exists', 'conflict');
     }
+    // Fallback
     throw new ApolloError(e.message, e.code, e.data);
   }
 };
