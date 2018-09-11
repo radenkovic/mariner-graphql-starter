@@ -1,5 +1,5 @@
 import { ApolloError } from 'apollo-server-express';
-import User from '@/user/service';
+import User from '@/services/user';
 import crypto from 'crypto';
 
 const ForgotPassword = `
@@ -16,13 +16,17 @@ export const resolver = async (root, args) => {
       $or: { email: login, username: login }
     });
     const token = crypto.randomBytes(32).toString('hex');
-    User.service('update', {
+    const res = await User.service('update', {
       id: user.id,
       password_reset_token: token
     });
-    console.log('token', token);
+    console.log(`[forgot password] token for ${res.email}:`, token);
+    return true;
   } catch (e) {
-    throw new ApolloError(e.message, e.code);
+    throw new ApolloError(
+      'User with provided login does not exist`  `',
+      e.code
+    );
   }
 };
 

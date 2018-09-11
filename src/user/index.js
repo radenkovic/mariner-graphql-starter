@@ -1,5 +1,5 @@
 import User, { resolver as user } from './get-user';
-import Me, { resolver as me } from './get-me';
+import MeType, { resolver as me } from './get-me';
 import CreateUser, { resolver as create_user } from './create-user';
 import UpdateUser, { resolver as update_user } from './update-user';
 
@@ -20,7 +20,7 @@ const BaseUser = {
 };
 
 export default {
-  typeDefs: [BaseUserType, ...User, ...CreateUser, ...UpdateUser, ...Me],
+  typeDefs: [BaseUserType, ...User, ...CreateUser, ...UpdateUser, ...MeType],
   queries: { user, me },
   mutations: { create_user, update_user },
   BaseUser

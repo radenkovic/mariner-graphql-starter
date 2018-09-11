@@ -16,9 +16,11 @@ const server = new ApolloServer({
   context: ({ req, res }) => ({ req, res, user: req.user }),
   formatError: error => {
     console.log(error);
+    delete error.extensions.exception.stacktrace;
     return {
       message: error.message,
-      code: error.extensions.code.toLowerCase()
+      code: error.extensions.code.toLowerCase().replace('_', '-'),
+      data: error.extensions.exception
     };
   }
 });

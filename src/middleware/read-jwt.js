@@ -1,4 +1,4 @@
-import Auth from '../authenticate/auth';
+import Auth from '@/authenticate/auth';
 
 export default (req, res, next) => {
   let jwt;

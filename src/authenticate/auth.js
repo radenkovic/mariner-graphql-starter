@@ -1,6 +1,6 @@
 import { Authenticate, verifyPassword } from 'node-mariner';
 import { AuthenticationError } from 'apollo-server-express';
-import User from '@/user/service';
+import User from '@/services/user';
 
 export default new Authenticate({
   secret: process.env.JWT_SECRET_KEY,
