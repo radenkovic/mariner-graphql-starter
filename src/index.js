@@ -14,13 +14,13 @@ app.use(readJwt); // Reads JWT and adds it to req.user
 const server = new ApolloServer({
   schema,
   context: ({ req, res }) => ({ req, res, user: req.user }),
-  formatError: error => {
-    console.log(error);
-    delete error.extensions.exception.stacktrace;
+  formatError: err => {
+    console.error(err);
+    delete err.extensions.exception.stacktrace;
     return {
-      message: error.message,
-      code: error.extensions.code.toLowerCase().replace('_', '-'),
-      data: error.extensions.exception
+      message: err.message,
+      code: err.extensions.code.toLowerCase().replace(/_/g, '-'),
+      data: err.extensions.exception
     };
   }
 });
