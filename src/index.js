@@ -3,9 +3,11 @@ import { ApolloServer } from 'apollo-server-express';
 import cookieParser from 'cookie-parser';
 import schema from './schema';
 import readJwt from '@/lib/middleware/read-jwt';
+import { error } from '@/lib/logger';
 
 require('dotenv').config();
 
+const __DEV__ = process.env.NODE_ENV === 'development';
 const app = express();
 
 app.use(cookieParser());
@@ -15,8 +17,8 @@ const server = new ApolloServer({
   schema,
   context: ({ req, res }) => ({ req, res, user: req.user }),
   formatError: err => {
-    console.error(err);
-    delete err.extensions.exception.stacktrace;
+    error(err, err.extensions);
+    if (!__DEV__) delete err.extensions.exception.stacktrace;
     return {
       message: err.message,
       code: err.extensions.code.toLowerCase().replace(/_/g, '-'),

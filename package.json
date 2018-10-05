@@ -32,7 +32,7 @@
     "graphql": "^14.0.2",
     "graphql-iso-date": "^3.5.0",
     "graphql-resolvers": "^0.2.2",
-    "graphql-tools": "^3.1.1",
+    "graphql-tools": "^4.0.0",
     "graphql-tools-type-uuid": "^1.0.2",
     "knex": "^0.15.2",
     "moment": "^2.22.2",
@@ -43,7 +43,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
-    "babel-eslint": "^9.0.0",
+    "babel-eslint": "^10.0.1",
     "babel-jest": "^23.4.2",
     "babel-plugin-module-resolver": "^3.0.0",
     "babel-preset-env": "^1.6.1",
@@ -56,8 +56,8 @@
     "eslint-plugin-flowtype": "^2.41.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jest": "^21.7.0",
-    "eslint-plugin-prettier": "^2.4.0",
-    "flow-bin": "^0.81.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "flow-bin": "^0.82.0",
     "jest": "^23",
     "prettier": "^1.10.2"
   }
